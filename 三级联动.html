@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>三级联动Demo</title>
+</head>
+<body>
+    <span>省</span>
+    <select id="sheng" onchange="changeSheng()">
+        <option value="--请选择--">--请选择--</option>
+        <option value="江西省">江西省</option>
+        <option value="湖南省">湖南省</option>
+        <option value="广东省">广东省</option>
+        <option value="江苏省">江苏省</option>
+    </select>
+    <span>市</span>
+    <select id="shi" onchange="changeShi()">
+        <option value="">--请选择--</option>
+    </select>
+    <span>区</span>
+    <select id="qu" onchange="changeQu()">
+        <option value="">--请选择--</option>
+    </select>
+</body>
+<script>
+    var arrData = {
+        江西省:{南昌市: ['青山湖区','经开区','东湖区','南昌县'],
+                吉安市: ['青原区','吉州区','吉安县','泰和县','新干县'],
+                赣州市: ['河源市','兴国县','yy县','xx县'],
+                宜春市: ['袁州区','万载县']},
+        湖南省:{邵阳市: ['邵阳县','1区','2区'],
+                长沙市: ['1区','2区','3区','4区'],
+                岳阳市: ['5区','6区','7区','8区','9区','10区']},
+        广东省:{广州市: ['11区','12区','13区'],
+                东莞市: ['厚街镇','14区','15区','16区','17区'],
+                中山市: ['18区','19区','20区','21区']},
+        江苏省:{苏州市: ['22区','23区','24区','25区','26区'],
+                徐州市: ['27镇','28区','29区','30区'],
+                镇江市: ['31区','32区','33区','34区']}
+    };
+
+    var sheng = document.getElementById("sheng");
+    var shi = document.getElementById("shi");
+    var qu = document.getElementById("qu");
+
+    function changeSheng(){
+        shi.length = 1; //当重新选择某个省时，应该把市和区的option清空，因为默认栏是“--请选择--”，故把长度变为1.
+        qu.length = 1;  //同上
+        for(key in arrData[sheng.value])
+        //注意字典中key的用法，字典是以键值对{key:value}存储的。sheng.value就是选择的省，比如选了江西省，那么sheng.value就是江西省。
+            shi.options.add(new Option(key,key)); //options.add(new Option(text,value));
+
+    }
+
+    function changeShi(){
+        qu.length = 1;  //当重新选择某个市时，应该把区的option清空，因为默认栏是“--请选择--”，故把长度变为1.
+        for(key in arrData[sheng.value][shi.value]){
+            var a = arrData[sheng.value][shi.value][key];
+            qu.options.add(new Option(a,a));
+        }
+    }
+</script>
+</html>
